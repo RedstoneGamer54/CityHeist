@@ -1,0 +1,10 @@
+#on load:
+	#broadcast "&7[&6toxicsludge.sk&7] &aSkript reloaded!"
+
+on spawn of slime:
+ set name of the slime to "&2Toxic Sludge"
+
+on death of slime:
+  set {amount} to random integer between 0 and 3
+  drop {amount} of slimeball named "&aSludge Ball" at victim
+ 

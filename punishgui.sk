@@ -1,0 +1,68 @@
+on load:
+	broadcast "&7[&6punishgui.sk&7] &aSkript reloaded!"
+
+command /punish [<offlineplayer>]:
+    permission: admin.punish
+    permission message: &c&lYou may not use this command!
+    usage: &c/punish (player)
+    trigger:
+        if arg 1 is set:
+            wait 3 ticks
+            open chest with 3 rows named "&cPunish %arg-1%" to player
+            format slot 12 of player with feather named "&a&lMute" to run [close the player's inventory]->[make player execute command "/punishmute %arg-1%"]
+            format slot 14 of player with anvil named "&c&lBan" to close then run [make player execute command "/punishban %arg-1%"]
+            format slot 18 of player with skull of ("jbonegames" parsed as an offline player) named "&eMade by JboneGames" to run ""
+        else:
+            send "&c/punish (player)"
+
+command /punishmute [<offlineplayer>]:
+    permission: admin.punishmute
+    permission message: &c&lYou may not use this command!
+    usage: &c/punishmute (player)
+    trigger:
+        if arg-1 is set:
+            wait 3 ticks
+            open chest with 6 rows named "&cMute %arg-1%" to player
+            format slot 0 of player with book and quill named "&5Menu" to run [close the player's inventory]->[make player execute command "/punish %arg-1%"]
+            format slot 11 of player with lime wool named "&aMinor" with lore "&710 Minutes" to close then run [make player execute command "/tempmute %arg-1% 10m Other"]
+            format slot 12 of player with green wool named "&2Light" with lore "&730 Minutes" to close then run [make player execute command "/tempmute %arg-1% 30m Other"]
+            format slot 13 of player with yellow wool named "&eNormal" with lore "&71 Hour" to close then run [make player execute command "/tempmute %arg-1% 1h Other"]
+            format slot 14 of player with orange wool named "&6Hefty" with lore "&71 Day" to close then run [make player execute command "/tempmute %arg-1% 1d Other"]
+            format slot 15 of player with red wool named "&4Heavy" with lore "&71 Week" to close then run [make player execute command "/tempmute %arg-1% 1w Other"]	
+            format slot 29 of player with name tag named "&cInvalid Characters" with lore "&75 Minutes" to close then run [make player execute command "/tempmute %arg-1% 5m Invalid Characters"]
+            format slot 30 of player with oak sign named "&cSpam" with lore "&710 Minutes" to close then run [make player execute command "/tempmute %arg-1% 10m Spam"]
+            format slot 31 of player with fire charge named "&cProfanity" with lore "&730 Minutes" to close then run [make player execute command "/tempmute %arg-1% 30m Profanity"]
+            format slot 32 of player with tripwire hook named "&cDisrespect" with lore "&71 Hour" to close then run [make player execute command "/tempmute %arg-1% 1h Disrespect"]
+            format slot 33 of player with brown mushroom named "&cRacial Slurs" with lore "&712 Hours" to close then run [make player execute command "/tempmute %arg-1% 12h Racial Slurs"]
+            format slot 38 of player with dirt block named "&cDirty" with lore "&71 Day" to close then run [make player execute command "/tempmute %arg-1% 1d Dirty"]
+            format slot 39 of player with sunflower named "&cScamming" with lore "&71 Week" to close then run [make player execute command "/tempmute %arg-1% 1w Scamming"]
+            format slot 40 of player with book named "&cAdvertising" with lore "&72 Weeks" to close then run [make player execute command "/tempmute %arg-1% 1w Advertising"]
+            format slot 41 of player with paper named "&cSpam Hack" with lore "&72 Weeks" to close then run [make player execute command "/tempmute %arg-1% 2w Spam Hack"]
+            format slot 42 of player with leather boots named "&cKick" with lore "&71 Time Kick From The Server" to close then run [make player execute command "/kick %arg-1%"]
+            format slot 8 of player with skull of ("JboneGames" parsed as an offline player) named "&eMade by nTrok" to run ""
+
+command /punishban [<offlineplayer>]:
+    permission: admin.punishban
+    permission message: &c&lYou may not use this command!
+    usage: &c/punishban (player)
+    trigger:
+        if arg-1 is set:
+            wait 3 ticks
+            open chest with 6 rows named "&cBan %arg-1%" to player
+            format slot 0 of player with book and quill named "&5Menu" to run [close the player's inventory]->[make player execute command "/punish %arg-1%"]
+            format slot 11 of player with lime wool named "&aMinor" with lore "&71 Day" to close then run [make player execute command "/tempban %arg-1% 1d Other"]
+            format slot 12 of player with green wool named "&2Light" with lore "&73 Days" to close then run [make player execute command "/tempban %arg-1% 3d Other"]
+            format slot 13 of player with yellow wool named "&eNormal" with lore "&71 Week" to close then run [make player execute command "/tempban %arg-1% 1w Other"]
+            format slot 14 of player with orange wool named "&6Hefty" with lore "&71 Month" to close then run [make player execute command "/tempban %arg-1% 1mo Other"]
+            format slot 15 of player with red wool named "&4Heavy" with lore "&7Permanent Ban" to close then run [make player execute command "/ipban %arg-1% Other"]
+            format slot 29 of player with barrier named "&cInappropriate Name or Skin" with lore "&71 Day" to close then run [make player execute command "/tempban %arg-1% 1d Inappropriate Name or Skin"]
+            format slot 30 of player with repeater named "&cAuto Clicker" with lore "&73 Days" to close then run [make player execute command "/tempban %arg-1% 3d Auto Clicker"]
+            format slot 31 of player with fishing rod named "&cAuto Fishing" with lore "&73 Days" to close then run [make player execute command "/tempban %arg-1% 3d Auto Fishing"]
+            format slot 32 of player with iron pickaxe named "&cAuto Miner" with lore "&75 Days" to close then run [make player execute command "/tempban %arg-1% 5d Auto Miner"]
+            format slot 33 of player with stone sword named "&cReach" with lore "&71 Week" to close then run [make player execute command "/tempban %arg-1% 1w Reach"]
+            format slot 38 of player with iron sword named "&cKill Aura" with lore "&71 Week" to close then run [make player execute command "/tempban %arg-1% 1w Kill Aura"]
+            format slot 39 of player with iron boots named "&cSpeed" with lore "&71 Week" to close then run [make player execute command "/tempban %arg-1% 1w Speed"]
+            format slot 40 of player with feather named "&cFly" with lore "&72 Weeks" to close then run [make player execute command "/tempban %arg-1% 2w Fly"]
+            format slot 41 of player with tnt named "&cNuker" with lore "&7Permanent Ban" to close then run [make player execute command "/ipban %arg-1% Nuker"]
+            format slot 42 of player with paper named "&cDuping" with lore "&7Permanent Ban" to close then run [make player execute command "/ipban %arg-1% Duping"]->[play raw sound "mob.bat.death" at player with pitch 1 volume 10]
+            format slot 8 of player with skull of ("JboneGames" parsed as an offline player) named "&eMade by nTrok" to run ""

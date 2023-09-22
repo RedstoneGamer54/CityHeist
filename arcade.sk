@@ -1,0 +1,112 @@
+on load:
+    broadcast "&7[&6arcade.sk&7] &aSkript reloaded!"
+
+on place of stone button:
+  broadcast "1"
+  if name of player's held item contains "clawmachine" or "pacman":
+    broadcast "2"
+    set {arcade.%event-block%} to name of player's held item
+    set {canarcade.%event-block%} to true
+
+on block break of stone button:
+  if {arcade.%event-block%} is set:
+    delete {arcade.%event-block%}
+
+on rightclick on stone button:
+  broadcast "1"
+  if {arcade.%event-block%} is "clawmachine":
+    broadcast "2"
+    if {canarcade.%event-block%} is true:
+      if name of player's held item is "&eArcade Token":
+        set {canarcade.%event-block%} to false
+        remove 1 of player's held item from player's inventory
+        chance of 8%:
+          set {reward} to random element out of {rewards::*}
+          drop {reward} at player's location
+          send "&9[Claw Machine] &5You Grabbed A Toy"
+          wait 1 second
+          set {canarcade.%event-block%} to true
+          stop
+        chance of 1%:
+          set {reward} to random element out of {limitedrewards::*}
+          drop {reward} at player's location
+          send "&9[Claw Machine] &5You Grabbed A &6Limited Time &5Toy!"
+          set {canarcade.%event-block%} to true
+          stop
+        message "&9[Claw Machine] &5You weren't able to grab anything"
+        wait 1 second
+        set {canarcade.%event-block%} to true
+      else:
+        send "&9[Claw Machine] &5You Need To Be Holding An &eArcade Token &5In Order To Use This Claw Machine!"
+    else:
+      send "&9[Claw Machine] &5A Game Is Already Running!"
+  else if {arcade.%event-block%} is "pacman":
+    if {canarcade.%event-block%} is true:
+      if name of player's held item is "&eArcade Token":
+        set {canarcade.%event-block%} to false
+        remove 1 of player's held item from player's inventory
+        chance of 75%:
+          send "&e[PacMan] &aYou Finished Level 1!"
+          wait 1 second
+          chance of 65%:
+            send "&e[PacMan] &aYou Finished Level 2!"
+            give 1 of magma cream named "&eArcade Ticket" to player
+            wait 1 second
+            chance of 40%:
+              send "&e[PacMan] &aYou Finished Level 3!"
+              give 5 of magma cream named "&eArcade Ticket" to player
+              wait 1 second
+              set {canarcade.%event-block%} to true
+              chance of 25%:
+                send "&e[PacMan] &aYou Beat The Game!"
+                give 25 of magma cream named "&eArcade Ticket" to player
+                set {canarcade.%event-block%} to true
+                stop
+              send "&e[PacMan] &8&lGAME OVER"
+              set {canarcade.%event-block%} to true
+              stop
+            send "&e[PacMan] &8&lGAME OVER"
+            set {canarcade.%event-block%} to true
+            stop
+          send "&e[PacMan] &8&lGAME OVER"
+          set {canarcade.%event-block%} to true
+          stop
+        send "&e[PacMan] &8&lGAME OVER"
+        set {canarcade.%event-block%} to true
+        stop
+      else:
+        send "&e[PacMan] &5You Need To Be Holding An &eArcade Token &5In Order To Play &ePacMan&5!"
+    else:
+      send "&e[PacMan] &cGame In Progress!"
+
+command /reward [<text>] [<text>]:
+  permission: rewards.set
+  trigger:
+    if arg-1 is not set:
+      send "&3Claw Machine Help"
+      send "&b/reward add (normal/limited) - Adds Your Held Item To Claw Machine Rewawrds"
+      send "&b/reward remove (normal/limited) - Removes Your Held Item From Claw Machine Rewards"
+      send "&b/reward list (normal/limited) - Lists All The Claw Machine Rewards"
+    if arg-1 is "add":
+      if arg-2 is "normal":
+        send "&aAdded To Normal"
+        add player's held item to {rewards::*}
+      if arg-2 is "limited":
+        send "&aAdded To Limited Edition"
+        add player's held item to {limitedrewards::*}
+    if arg-1 is "remove":
+      if arg-2 is "normal":
+        remove player's held item from {rewards::*}
+        send "&aRemoved This From Normal"
+      if arg-2 is "limited":
+        remove player's held item from {limitedrewards::*}
+        send "&aRemoved This From Limited Edition"
+    if arg-1 is "list":
+      if arg-2 is "normal":
+        send "&3These Are The Claw Machine Rewards!"
+        loop {rewards::*}:
+          send "&b%loop-index% &b- %loop-value%"
+      if arg-2 is "limited":
+        send "&3These Are The &6Limited Time &3Claw Machine Rewards!"
+        loop {limitedrewards::*}:
+          send "&b%loop-index% &b- %loop-value%"

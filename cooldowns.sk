@@ -1,0 +1,21 @@
+on load:
+    broadcast "&7[&6cowldowns.sk&7] &aSkript reloaded!"
+
+every second:
+  loop all players:
+    send action bar "&9Cooldown: &b%{heistcooldown::%loop-player%}% minutes" to loop-player
+
+every minute:
+  loop all players:
+    set {heistcooldown::%loop-player%} to {heistcooldown::%loop-player%} - 1 if {heistcooldown::%loop-player%} >= 1
+
+command /cooldownset <player> <integer>:
+  permission: cooldowns.admin
+  trigger:
+    set {heistcooldown::%arg-1%} to arg-2
+
+command /maxcooldownset <player> <integer>:
+  permission: cooldowns.admin
+  trigger:
+    delete {maxheistcooldown::%player%}
+    set {maxheistcooldown::%arg-1%} to arg-2

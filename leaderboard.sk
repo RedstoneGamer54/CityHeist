@@ -1,0 +1,36 @@
+on load:
+	broadcast "&7[&6leaderboard.sk&7] &aSkript reloaded!"
+
+every 1 minute:
+    set {_robbers::*} to sorted {toprobbers::*} from highest to lowest with format "@index"
+    create hologram "&9&l&nRobbers&r&b&l&nTop&r;&8&m----------------------;&7##1 &9%{_robbers::1} parsed as offline player% &7» &b%{toprobbers::%{_robbers::1}%}% &bHeists;&7##2 &9%{_robbers::2} parsed as offline player% &7» &b%{toprobbers::%{_robbers::2}%}% &bHeists;&7##3 &9%{_robbers::3} parsed as offline player% &7» &b%{toprobbers::%{_robbers::3}%}% &bHeists;&7##4 &9%{_robbers::4} parsed as offline player% &7» &b%{toprobbers::%{_robbers::4}%}% &bHeists;&7##5 &9%{_robbers::5} parsed as offline player% &7» &b%{toprobbers::%{_robbers::5}%}% &bHeists;&8&m----------------------;;&7&nUpdates Every Minute&r" at block above above above above {robberstopholo} for 1 Minute
+ 
+on load:
+    loop all players:
+        if {Toprobbers::%uuid of loop-player%} is not set:
+            set {Toprobbers::%uuid of loop-player%} to 0
+ 
+command /holo [<text>] [<text>]:
+    trigger:
+        if player is op:
+            if arg 1 is not set:
+                send ""
+                send "&7Usage: &f/Holo set <robberstop>"
+                send ""
+            else if arg 1 is "set":
+                if arg 2 is "robberstop":
+                    set {robberstopholo} to location of player
+                    send "&b&lHOLO: &fRobberstop holo &7has been set"
+        else:
+            send "&4&lSORRY! &cYou do not have permission to execute this command"
+
+command /leaderboard <text> <offline player> [<integer>]:
+  permission: leaderboards.admin
+  trigger:
+    if arg-1 = "set":
+      if arg-3 is set:
+        set {toprobbers::%arg-2's uuid%} to arg-3
+        message "&aYou Set %arg-2%&a's Robbery Count To %arg-3%"
+    else if arg-1 = "reset":
+      set {toprobbers::%arg-2's uuid%} to 0
+      message "&aYou Reset %arg-2%&a's Robbery Count"

@@ -1,0 +1,118 @@
+on load:
+    broadcast "&7[&6jukebox.sk&7] &aSkript reloaded!"
+
+on right click holding a player head:
+	if name of event-item is "&b&lPersonal Jukebox":
+		cancel event
+		open virtual chest inventory with size 5 named "&b&lPersonal Jukebox" to player
+		make gui slot 0,1,2,3,4,5,6,7,8,9,11,13,15,17,18,20,22,24,26,27,29,31,33,35,36,37,38,39,40,41,42,43 of player with gray glass pane with name "&a" to do nothing
+
+		make gui slot 44 of player with barrier with name "&bStop Music" to run function StopMusic(player)
+
+		make gui slot 10 of player with music disc blocks with name "&bBlocks" to run function BlocksDisc(player)
+
+		make gui slot 19 of player with music disc cat with name "&bCat" to run function CatDisc(player)
+
+		make gui slot 28 of player with music disc chirp with name "&bChirp" to run function ChirpDisc(player)
+
+		make gui slot 12 of player with music disc far with name "&bFar" to run function FarDisc(player)
+
+		make gui slot 21 of player with music disc mall with name "&bMall" to run function MallDisc(player)
+
+		make gui slot 30 of player with music disc mellohi with name "&bMellohi" to run function MellohiDisc(player)
+
+		make gui slot 14 of player with music disc stal with name "&bStal" to run function StalDisc(player)
+
+		make gui slot 23 of player with music disc strad with name "&bStrad" to run function StradDisc(player)
+
+		make gui slot 32 of player with music disc wait with name "&bWait" to run function WaitDisc(player)
+
+		make gui slot 16 of player with music disc ward with name "&bWard" to run function WardDisc(player)
+
+		make gui slot 25 of player with music disc 11 with name "&b11" to run function ElevenDisc(player)
+
+		make gui slot 34 of player with music disc 13 with name "&b13" to run function ThirteenDisc(player)
+
+function StopMusic(p:player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	send "&8[&b&lJukebox&8] &7Stopped all music." to {_p}
+
+function BlocksDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_BLOCKS" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bBlocks&7." to {_p}
+
+function ElevenDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_11" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &b11&7." to {_p}
+
+function ThirteenDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_13" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &b13&7." to {_p}
+
+function CatDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_CAT" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bCat&7." to {_p}
+
+function FarDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_FAR" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bFar&7." to {_p}
+
+function MallDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_MALL" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bMall&7." to {_p}
+
+function MellohiDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_MELLOHI" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bMellohi&7." to {_p}
+
+function StalDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_STAL" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bStal&7." to {_p}
+
+function StradDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_STRAD" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bStrad&7." to {_p}
+
+function WardDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_WARD" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bWard&7." to {_p}
+
+function WaitDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_WAIT" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bWait&7." to {_p}
+
+function ChirpDisc(p: player):
+	close {_p}'s inventory #
+	make console execute command "/stopsound %{_p}%"
+	play "MUSIC_DISC_CHIRP" to {_p} at volume 10
+	send "&8[&b&lJukebox&8] &7Now playing &bChirp&7." to {_p}
+
+command /jukebox <player>:
+	permission: server.givejukebox
+	permission message: "&cYou don't have permission to run this command!"
+	trigger:
+		set {_skull} to "C418" parsed as offline player
+		give arg-1 skull of {_skull} named "&b&lPersonal Jukebox"

@@ -1,0 +1,61 @@
+on load:
+	broadcast "&7[&6broadcast.sk&7] &aSkript reloaded!"
+
+# CONFIG #
+
+options:
+
+# Prefix (Top and Bottom)
+    Prefix: &9&lCity&b&lHeist
+
+# Color Of The Text ONLY PUT A & COLOR CODE
+    Color: &b&l
+
+# Color of Lines ONLY PUT A & COLOR CODE
+    Lines: &9
+
+# Permission Message
+    PermMSG: &cNo Permission
+
+
+# DO NOT TOUCH ANYTHING BELOW IT WILL BREAK PLUGIN #
+# PM ME IF YOU WANT MORE STUFF ADDED #
+# https://www.spigotmc.org/members/iconfigfiles.292361/ #
+
+
+
+
+
+
+
+
+
+command /broadcast <text>:
+    usage: /broadcast <text>
+    permission: broadcast.use
+    aliases: bc
+    permission message: {@PermMSG} #EDIT THIS IN CONFIG
+    trigger:
+        broadcast "{@Lines}&m----------------&8[&e&l{@Prefix}&8]{@Lines}&m----------------"
+        broadcast "&e"
+        broadcast " {@Color}%argument%"
+        broadcast "&e"
+        broadcast "{@Lines}&m----------------&8[&e&l{@Prefix}&8]{@Lines}&m----------------"
+        stop
+		
+command /bc <text>:
+    usage: /bc <text>
+    permission: broadcast.use
+    aliases: bc
+    permission message: {@PermMSG} #EDIT THIS IN CONFIG
+    trigger:
+        broadcast "{@Lines}&m----------------&8[&e&l{@Prefix}&8]{@Lines}&m----------------"
+        broadcast "&e"
+        broadcast " {@Color}%argument%"
+        broadcast "&e"
+        broadcast "{@Lines}&m----------------&8[&e&l{@Prefix}&8]{@Lines}&m----------------"
+        stop
+
+#CONTACT ICONFIGFILES IF YOU WANT TO CHANGE
+#ANYTHING ABOVE <3
+

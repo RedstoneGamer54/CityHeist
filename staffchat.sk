@@ -1,0 +1,11 @@
+on load:
+	broadcast "&7[&6staffchat.sk&7] &aSkript reloaded!"
+
+command /staffchat [<text>]:
+    aliases: /sc
+    permission: sc.use
+    permission message: &6&l(!) &fYou need sc.staffchat permission to access Staff Chat!
+    trigger:
+        loop all players:
+            if loop-player has permission "sc.staffchat":
+                send "&a&lStaffChat &8&l» &8%player's display name%&8 |&d %arg 1%" to loop-player

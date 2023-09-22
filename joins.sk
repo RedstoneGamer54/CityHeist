@@ -1,0 +1,16 @@
+on load:
+	broadcast "&7[&6joins.sk&7] &aSkript reloaded!"
+
+on first join:
+  set join message to "&8[&e+&8] &7Welcome &e%player% &7to &9&lCity&b&lHeist!"
+  execute console command "/worktime %player% 20"
+  set {maxheistcooldown::%player%} to 8
+  set {heistcooldown::%player%} to 0
+
+
+on join:
+  set join message to "&8[&9+&8] &7%player%"
+  teleport player to {spawn}
+
+on quit:
+  set quit message to "&8[&c-&8] &7%player%"

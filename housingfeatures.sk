@@ -1,0 +1,39 @@
+on load:
+	broadcast "&7[&6housingfeatures.sk&7] &aSkript reloaded!"
+
+on place of stone button:
+  if name of player's held item contains "house1":
+    set {house1.%event-block%} to name of player's held item
+
+on block break of stone button:
+  if {house1.%event-block%} is set:
+    delete {house1.%event-block%}
+
+on rightclick on stone button:
+  if {house1.%event-block%} is "house1":
+    loop {house1.secretdoor::*}:
+      if block at loop-value is red concrete:
+        set block at loop-value to air
+    wait 3 seconds
+    loop {house1.secretdoor::*}:
+      if block at loop-value is air:
+        set block at loop-value to red concrete
+
+#command /pos1:
+  #trigger:
+    #delete {pos1}
+    #set {pos1} to player's target block
+
+#command /pos2:
+  #trigger:
+    #delete {pos2}
+    #set {pos2} to player's target block
+
+#command /areaset:
+  #trigger:
+    #delete {house1.secretdoor::*}
+    #loop all blocks between {pos1} and {pos2}:
+      #add location of loop-value to {house1.secretdoor::*}
+
+
+

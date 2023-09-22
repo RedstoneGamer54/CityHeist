@@ -1,0 +1,8 @@
+on load:
+	broadcast "&7[&6stats.sk&7] &aSkript reloaded!"
+
+command /stats:
+  trigger:
+    message "&8&m----------------&8[&eStats&8]&8&m-----------------"
+    message "&bYou have completed %{toprobbers::%player's uuid%}% &bHeists"
+    message "&8&m---------------------------------------"

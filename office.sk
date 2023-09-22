@@ -1,0 +1,106 @@
+on load:
+    broadcast "&7[&6office.sk&7] &aSkript reloaded!"
+
+on place of stone button:
+  if name of player's held item contains "office":
+    set {office.%event-block%} to name of player's held item
+    set {canwork.%event-block%} to true
+
+on block break of stone button:
+  if {office.%event-block%} is set:
+    delete {office.%event-block%}
+
+on rightclick on stone button:
+  if {office.%event-block%} is "office":
+    if {canwork.%event-block%} is true:
+      set {canwork.%event-block%} to false
+      give 1 paper named "&7Office Document" to the player
+      wait "%{worktime.%player's uuid%}% ticks" parsed as timespan
+      set {canwork.%event-block%} to true
+    #else:
+      #message "&cYou are working too fast"
+
+command /worktime [<offlineplayer>] [<text>]:
+  permission: office.admin
+  trigger:
+    if arg-1 is not set:
+      if arg-2 is not set:
+        send "&3Office Help"
+        send "&b/worktime (player) (time in ticks)"
+        send "&a20 Ticks = 1 Second"
+    if arg-1 is set:
+      if arg-2 is not set:
+        send "&a%arg-1%&a's Work Time Is %{worktime.%arg-1's uuid%}%"
+      else:
+        delete {worktime.%arg-1%}
+        set {worktime.%arg-1's uuid%} to arg-2
+
+command /workspeed:
+  trigger:
+    message "&aYour workspeed is %{worktime.%player's uuid%}%&a Ticks"
+    message "&a20 Ticks = 1 Second"
+
+command /workreset <player>:
+  permission: work.admin
+  trigger:
+    delete {workupgrade1.%player%}
+    delete {workupgrade2.%player%}
+    delete {workupgrade3.%player%}
+    delete {workupgrade4.%player%}
+    delete {workupgrade5.%player%}
+    execute console command "/worktime %arg-1% 20"
+
+on rightclick holding paper:
+	if name of player's tool contains "Work Upgrade":
+		if name of player's tool contains "Tier 1":
+			if {workupgrade1.%player%} is not set:
+				set {workupgrade1.%player%} to true
+				execute console command "/worktime %player% 18"
+				message "&aWork Speed Upgraded!"
+				remove 1 of event-item from player's inventory
+			else:
+				message "&cYou cannot use this upgrade again"
+		if name of player's tool contains "Tier 2":
+			if {workupgrade1.%player%} is set:
+				if {workupgrade2.%player%} is not set:
+					set {workupgrade2.%player%} to true
+					execute console command "/worktime %player% 16"
+					message "&aWork Speed Upgraded!"
+					remove 1 of event-item from player's inventory
+				else:
+					message "&cYou cannot use this upgrade again"
+			else:
+				message "&cYou need the previous upgrade before using this one"
+		if name of player's tool contains "Tier 3":
+			if {workupgrade2.%player%} is set:
+				if {workupgrade3.%player%} is not set:
+					set {workupgrade3.%player%} to true
+					execute console command "/worktime %player% 14"
+					message "&aWork Speed Upgraded!"
+					remove 1 of event-item from player's inventory
+				else:
+					message "&cYou cannot use this upgrade again"
+			else:
+				message "&cYou need the previous upgrade before using this one"
+		if name of player's tool contains "Tier 4":
+			if {workupgrade3.%player%} is set:
+				if {workupgrade4.%player%} is not set:
+					set {workupgrade4.%player%} to true
+					execute console command "/worktime %player% 12"
+					message "&aWork Speed Upgraded!"
+					remove 1 of event-item from player's inventory
+				else:
+					message "&cYou cannot use this upgrade again"
+			else:
+				message "&cYou need the previous upgrade before using this one"
+		if name of player's tool contains "Tier 5":	
+			if {workupgrade4.%player%} is set:
+				if {workupgrade5.%player%} is not set:
+					set {workupgrade5.%player%} to true
+					execute console command "/worktime %player% 10"
+					message "&aWork Speed Upgraded!"
+					remove 1 of event-item from player's inventory
+				else:
+					message "&cYou cannot use this upgrade again"
+			else:
+				message "&cYou need the previous upgrade before using this one"

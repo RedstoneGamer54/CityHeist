@@ -1,0 +1,17 @@
+on load:
+	broadcast "&7[&6help.sk&7] &aSkript reloaded!"
+
+command /help:
+  trigger:
+    message "           &9&lCity&b&lHeist Help"
+    message "&8&m------------------------------"
+    message "&bTo get started you should go work"
+    message "&bat &cDev Corp&b, then use your"
+    message "&bearned money and buy a"
+    message "&6Makeshift Screwdriver&b at the park"
+    message "&band a &7Wooden Shank&b from the"
+    message "&bBlacksmith. Use your earned money"
+    message "&bfrom heists to gear up and get"
+    message "&bequipment for other heists."
+    message "&8&m------------------------------"
+    

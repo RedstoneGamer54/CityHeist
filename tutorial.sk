@@ -1,0 +1,76 @@
+on load:
+    broadcast "&7[&6tutorial.sk&7] &aSkript reloaded!"
+
+command /tutorial:
+  trigger:
+    set {tutorialactive.%player's uuid%} to true
+    send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+    send "&7Do /tutorialskip If You Wish To Skip The Rest Of The Tutorial."
+    send "&8&m-----------------------------------------------------"
+    wait 3 seconds
+    if {tutorialactive.%player's uuid%} is true:
+      set player's gamemode to adventure
+      apply invisibility to player for 40 seconds
+      teleport player to {tutorial.location.1}
+      send title "&7&lJoe's Supply Tent" for 4 seconds
+      send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+      send "&7&lRetired Robber:&7 This Is Joe, You Can Buy Supplies From Him To Help You With Your Heists."
+      send "&8&m-----------------------------------------------------"
+      wait 8 seconds
+      if {tutorialactive.%player's uuid%} is true:
+        teleport player to {tutorial.location.2}
+        send title "&6&lSupermarket" for 4 seconds
+        send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+        send "&7&lRetired Robber:&7 They Are Currently Fixing This Air Vent. A  &6&lMakeshift Screwdriver &7Should Be Enough To Break In."
+        send "&8&m-----------------------------------------------------"
+        wait 8 seconds
+        if {tutorialactive.%player's uuid%} is true:
+          teleport player to {tutorial.location.3}
+          send title "&d&lResturant" for 4 seconds
+          send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+          send "&7&lRetired Robber:&7 The Wall Is Easily Breakable, A &e&lSledge Hammer &7Should Do The Trick."
+          send "&8&m-----------------------------------------------------"
+          wait 8 seconds
+          if {tutorialactive.%player's uuid%} is true:
+            teleport player to {tutorial.location.4}
+            send title "&f&lOffice" for 4 seconds
+            send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+            send "&7&lRetired Robber:&7 You Need Money In Order To Get Heist Supplies. This Office Should Help Get You What You Need."
+            send "&8&m-----------------------------------------------------"
+            wait 8 seconds
+            if {tutorialactive.%player's uuid%} is true:
+              teleport player to {tutorial.location.5}
+              send title "&2&lApartment Complex" for 4 seconds
+              send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+              send "&7&lRetired Robber:&7 An &2&lApartment &7Is A Good Place To Store Items And Hide Out."
+              send "&8&m-----------------------------------------------------"
+              wait 8 seconds
+              teleport player to {spawn}
+              delete {tutorialactive.%player's uuid%}
+              send title "&9Goodluck" for 4 seconds
+              send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+              send "&7&lRetired Robber:&7 That's All You Need To Know. Now Goodluck And Don't Get Caught!"
+              send "&8&m-----------------------------------------------------"
+
+command /tutorialskip:
+  trigger:
+    if {tutorialactive.%player's uuid%} is true:
+      delete {tutorialactive.%player's uuid%}
+      remove invisibility from player
+      teleport player to {spawn}
+      send "&8&m----------------------&8[&eTutorial&8]&8&m-----------------------"
+      send "&7Tutorial Skipped."
+      send "&8&m-----------------------------------------------------"
+    else:
+      send "&cYou Are Not Currently In A Tutorial"
+    
+
+command /tutorialpoint <integer>:
+  permission: tutorial.admin
+  trigger:
+    if arg-1 is set:
+      delete {tutorial.location.%arg-1%}
+      set {tutorial.location.%arg-1%} to player's location
+      send "&aSet Tutiorial Point %arg-1% &aTo %player's location%"
+    else:
+      send "&c/tutorialpoint (point)"

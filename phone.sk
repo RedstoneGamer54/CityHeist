@@ -1,0 +1,97 @@
+#on load:
+    #broadcast "&7[&6phone.sk&7] &aSkript reloaded!"
+
+function phone(p: player, t: text):
+  if {_t} is "homescreen":
+    open virtual dropper inventory named "&9Heist&bPhone" to {_p}
+    format gui slot 0 of {_p} with paper named "&9City &bApps" to run function phone({_p}, "appstore")
+    set {slot} to 1
+    loop {apps.%{_p}%::*}:
+      set {run} to name of loop-value
+      make a gui slot {slot} of {_p} with loop-value to run function apps({_p}, "%{run}%")
+      add 1 to {slot}
+  if {_t} is "appstore":
+    open virtual chest inventory with size 3 named "&9City &bApps" to {_p}
+    make a gui slot (all integers between 0 and 26) of {_p} with gray stained glass pane named " "
+    make a gui slot 10 of {_p} with paper named "&9City &aBanking" with lore "&b&l$5" to run:
+      set {app} to paper named "&9City &aBanking"
+      if size of {apps.%{_p}%::*} is 8:
+        send "&8[&9City &bApps&8] &cYou Can Not Buy Anymore Apps"
+        stop
+      if {apps.%{_p}%::*} contains {app}:
+        stop
+      if player has diamond named "&b&l$5":
+        remove 1 of diamond named "&b&l$5" from player's inventory
+        add {app} to {apps.%{_p}%::*}
+        send "&8[&9City &bApps&8] &aYou Bought &9City &aBanking" to {_p}
+      else:
+        send "&8[&9City &bApps&8] &cYou Do Not Have Enough To Purchase That App."
+    make a gui slot 11 of {_p} with paper named "&9City &8Shopping" with lore "&b&l$5" to run:
+      set {app} to paper named "&9City &8Shopping"
+      if size of {apps.%{_p}%::*} is 8:
+        send "&8[&9City &bApps&8] &cYou Can Not Buy Anymore Apps"
+        stop
+      if {apps.%{_p}%::*} contains {app}:
+        stop
+      if player has diamond named "&b&l$5":
+        remove 1 of diamond named "&b&l$5" from player's inventory
+        add {app} to {apps.%{_p}%::*}
+        send "&8[&9City &bApps&8] &aYou Bought &9City &8Shopping" to {_p}
+      else:
+        send "&8[&9City &bApps&8] &cYou Do Not Have Enough To Purchase That App."
+  
+function apps(p: player, t: text):
+  if {_t} is "&9City &aBanking":
+    open virtual chest inventory with size 3 named "&9City &aBanking" to {_p}
+    make a gui slot (all integers between 0 and 26) of {_p} with gray stained glass pane named " "
+    format gui slot 4 of {_p} with paper named "&bAccount: $%{banking::%{_p}%}%"
+    make a gui slot 11 of {_p} with chest named "&aDeposit" to run function apps({_p}, "deposit")
+    make a gui slot 15 of {_p} with painting named "&cWithdraw" to run function app({_p}, "withdraw")
+  if {_t} is "deposit":
+    open virtual chest inventory with size 3 named "&aDeposit" to {_p}
+    make a gui slot (all integers between 0 and 26) of {_p} with gray stained glass pane named " "
+    format gui slot 4 of {_p} with paper named "&bAccount: $%{banking::%{_p}%}%"
+    format gui slot 10 of {_p} with diamond named "&b&l$5" with lore "&aDeposit &b&l$5" to run:
+      if player has diamond named "&b&l$5":
+        remove 1 of diamond named "&b&l$5" from player's inventory
+        add 5 to {banking::%{_p}%}
+        send "&aDeposited &b&l$5 &aInto Your Account"
+    format gui slot 16 of {_p} with diamond named "&b&l$100,000" with lore "&aDeposit &b&l$100,000" to run:
+      if player has diamond named "&b&l$100,000":
+        remove 1 of diamond named "&b&l$100,000" from player's inventory
+        add 100000 to {banking::%{_p}%}
+        send "&aDeposited &b&l$100,000 &aInto Your Account"
+    format gui slot 11 of {_p} with diamond named "&b&l$10" with lore "&aDeposit &b&l$10" to run:
+      if player has diamond named "&b&l$10":
+        remove 1 of diamond named "&b&l$10" from player's inventory
+        add 10 to {banking::%{_p}%}
+        send "&aDeposited &b&l$10 &aInto Your Account"
+    format gui slot 12 of {_p} with diamond named "&b&l$50" with lore "&aDeposit &b&l$50" to run:
+      if player has diamond named "&b&l$50":
+        remove 1 of diamond named "&b&l$50" from player's inventory
+        add 50 to {banking::%{_p}%}
+        send "&aDeposited &b&l$50 &aInto Your Account"
+    format gui slot 13 of {_p} with diamond named "&b&l$100" with lore "&aDeposit &b&l$100" to run:
+      if player has diamond named "&b&l$100":
+        remove 1 of diamond named "&b&l$100" from player's inventory
+        add 100 to {banking::%{_p}%}
+        send "&aDeposited &b&l$100 &aInto Your Account"
+    format gui slot 14 of {_p} with diamond named "&b&l$1,000" with lore "&aDeposit &b&l$1,000" to run:
+      if player has diamond named "&b&l$1,000":
+        remove 1 of diamond named "&b&l$1,000" from player's inventory
+        add 1000 to {banking::%{_p}%}
+        send "&aDeposited &b&l$1,000 &aInto Your Account"
+    format gui slot 15 of {_p} with diamond named "&b&l$10,000" with lore "&aDeposit &b&l$10,000" to run:
+      if player has diamond named "&b&l$10,000":
+        remove 1 of diamond named "&b&l$10,000" from player's inventory
+        add 10000 to {banking::%{_p}%}
+        send "&aDeposited &b&l$5 &aInto Your Account"
+
+on rightclick with book:
+  if name of player's held item is "&9&lHeist&b&lPhone":
+    phone(player, "homescreen")
+
+command /appreset [<offlineplayer>]:
+  permission: app.admin
+  trigger:
+    delete {apps.%arg-1%::*}

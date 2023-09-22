@@ -1,0 +1,56 @@
+on load:
+	set {canelevator} to true
+	broadcast "&7[&6apartments.sk&7] &aSkript reloaded!"
+
+on place of stone button:
+  if name of player's held item contains "bottomelevatorbutton":
+    set {bottomelevatorbutton.%event-block%} to name of player's held item
+
+on block break of stone button:
+  if {bottomelevatorbutton.%event-block%} is set:
+    delete {bottomelevatorbutton.%event-block%}
+
+on place of stone button:
+  if name of player's held item contains "topelevatorbutton":
+    set {topelevatorbutton.%event-block%} to name of player's held item
+
+on block break of stone button:
+  if {topelevatorbutton.%event-block%} is set:
+    delete {topelevatorbutton.%event-block%}
+
+on rightclick on stone button:
+  if {bottomelevatorbutton.%event-block%} is "bottomelevatorbutton":
+    if {canelevator} is true:
+      set {canelevator} to false
+      teleport player to {elevator.wait}
+      message "&aGoing up!"
+      wait 3 seconds
+      teleport player to {elevator.top}
+      set {canelevator} to true
+    else:
+      message "&cSomeone else is on the elevator right now"
+
+on rightclick on stone button:
+  if {topelevatorbutton.%event-block%} is "topelevatorbutton":
+    if {canelevator} is true:
+      set {canelevator} to false
+      teleport player to {elevator.wait}
+      message "&aGoing down!"
+      wait 3 seconds
+      teleport player to {elevator.bottom}
+      set {canelevator} to true
+    else:
+      message "&cSomeone else is on the elevator right now"
+
+command /elevatorset [<text>]:
+  permission: elevator.admin
+  trigger:
+    delete {elevator.%arg-1%}
+    set {elevator.%arg-1%} to player's location
+    message "&aSet elevator.%arg-1% &ato your location"
+
+command /elevatorfix:
+  permission: elevator.admin
+  trigger:
+    set {canelevator} to true
+    message "&aElevator Fixed"

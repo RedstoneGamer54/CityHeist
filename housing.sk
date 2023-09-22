@@ -1,0 +1,154 @@
+on load:
+	broadcast "&7[&6housing.sk&7] &aSkript reloaded!"
+
+command /house [<text>] [<player>]:
+  permission: house.admin
+  trigger:
+    if arg-1 is not set:
+      send "&6Housing Help"
+      send "&e/house set (player) - Gives You A Player's Door To Place To Make It Their House!"
+    if arg-1 is "set":
+      if arg-2 is set:
+        give iron door named "%arg-2%" with lore "&6Housing" to player
+        send "&ePlace Down Door To Set It To A Player's Housing"
+      else:
+        send "&ePlease Enter A Player To Use This Command!"
+
+on block place of iron door:
+  if name of player's held item contains "Small":
+    set {block} to block above event-block
+    set {housing.%event-block%} to name of player's held item
+    set {housing.%{block}%} to name of player's held item
+    send "&aPlaced A %{housing.%event-block%}% &aHouse!"
+  if name of player's held item contains "Medium":
+    set {block} to block above event-block
+    set {housing.%event-block%} to name of player's held item
+    set {housing.%{block}%} to name of player's held item
+    send "&aPlaced A %{housing.%event-block%}% &aHouse!"
+  if name of player's held item contains "Large":
+    set {block} to block above event-block
+    set {housing.%event-block%} to name of player's held item
+    set {housing.%{block}%} to name of player's held item
+    send "&aPlaced A %{housing.%event-block%}% &aHouse!"
+
+on rightclick on iron door:
+  if {housing.%event-block%} is set:
+    if name of player's held item contains "&3&lHouse Voucher":
+      if {housing.%event-block%} is "Small":
+        if name of player's held item is "&3&lHouse Voucher - &6&lSmall":
+          send "&aYou Now Own This House!"
+          if block above event-block is iron door:
+            set {block} to block above event-block
+          if block below event-block is iron door:
+            set {block} to block below event-block
+          set {housing.%event-block%} to player
+          set {housing.%{block}%} to player
+          remove 1 of player's held item from player's inventory
+      if {housing.%event-block%} is "Medium":
+        if name of player's held item is "&3&lHouse Voucher - &6&lMedium":
+          send "&aYou Now Own This House!"
+          if block above event-block is iron door:
+            set {block} to block above event-block
+          if block below event-block is iron door:
+            set {block} to block below event-block
+          set {housing.%event-block%} to player
+          set {housing.%{block}%} to player
+          remove 1 of player's held item from player's inventory
+      if {housing.%event-block%} is "Large":
+        if name of player's held item is "&3&lHouse Voucher - &6&lLarge":
+          send "&aYou Now Own This House!"
+          if block above event-block is iron door:
+            set {block} to block above event-block
+          if block below event-block is iron door:
+            set {block} to block below event-block
+          set {housing.%event-block%} to player
+          set {housing.%{block}%} to player
+          remove 1 of player's held item from player's inventory
+      else:
+        send "&cYou Can Not Enter %{housing.%event-block%}%&c's House!"
+    else:
+      if player has permission "housing.bypass":
+        play sound "block.iron_door.open" with volume 1.0 at player
+        activate block
+        wait 2 seconds
+        play sound "block.iron_door.close" with volume 1.0 at player
+        deactivate block
+      if {housing.%event-block%} is player:
+        play sound "block.iron_door.open" with volume 1.0 at player
+        activate block
+        wait 2 seconds
+        play sound "block.iron_door.close" with volume 1.0 at player
+        deactivate block
+      else:
+        send "&cYou Can Not Enter %{housing.%event-block%}%&c's House!"
+
+on block break of iron door:
+  set {block} to block below event-block
+  if {housing.%{block}%} is set:
+    delete {housing.%{block}%}
+  set {block} to block below event-block
+  if {housing.%{block}%} is set:
+    delete {housing.%{block}%}
+  if {housing.%event-block%} is set:
+    send "&aHouse Removed!"
+    send "&cYour House Was Removed!" to {housing.%event-block%}
+    delete {housing.%event-block%}
+
+on block place of iron trapdoor:
+  if name of player's held item contains "Small":
+    set {housing.%event-block%} to name of player's held item
+    send "&aPlaced A %{housing.%event-block%}% &aHouse!"
+  if name of player's held item contains "Medium":
+    set {housing.%event-block%} to name of player's held item
+    send "&aPlaced A %{housing.%event-block%}% &aHouse!"
+  if name of player's held item contains "Large":
+    set {housing.%event-block%} to name of player's held item
+    send "&aPlaced A %{housing.%event-block%}% &aHouse!"
+
+on rightclick on iron trapdoor:
+  if {housing.%event-block%} is set:
+    if name of player's held item contains "&3&lHouse Voucher":
+      if {housing.%event-block%} is "Small":
+        if name of player's held item is "&3&lHouse Voucher - &6&lSmall":
+          send "&aYou Now Own This House!"
+          set {housing.%event-block%} to player
+          remove 1 of player's held item from player's inventory
+      if {housing.%event-block%} is "Medium":
+        if name of player's held item is "&3&lHouse Voucher - &6&lMedium":
+          send "&aYou Now Own This House!"
+          set {housing.%event-block%} to player
+          remove 1 of player's held item from player's inventory
+      if {housing.%event-block%} is "Large":
+        if name of player's held item is "&3&lHouse Voucher - &6&lLarge":
+          send "&aYou Now Own This House!"
+          set {housing.%event-block%} to player
+          remove 1 of player's held item from player's inventory
+      else:
+        send "&cYou Can Not Enter %{housing.%event-block%}%&c's House!"
+    else:
+      if player has permission "housing.bypass":
+        play sound "block.iron_door.open" with volume 1.0 at player
+        activate block
+        wait 2 seconds
+        play sound "block.iron_door.close" with volume 1.0 at player
+        deactivate block
+      if {housing.%event-block%} is player:
+        play sound "block.iron_door.open" with volume 1.0 at player
+        activate block
+        wait 2 seconds
+        play sound "block.iron_door.close" with volume 1.0 at player
+        deactivate block
+      else:
+        send "&cYou Can Not Enter %{housing.%event-block%}%&c's House!"
+
+on block break of iron trapdoor:
+  if {housing.%event-block%} is set:
+    send "&aHouse Removed!"
+    send "&cYour House Was Removed!" to {housing.%event-block%}
+    delete {housing.%event-block%}
+
+command /housevoucher <player> <text>:
+  executable by: console
+  trigger:
+    set {voucher} to shiny paper named "&3&lHouse Voucher - &6&l%arg-2%" with lore "&7Right Click On A &6&l%arg-2% &7House To Redeem"
+    give arg-1 {voucher}

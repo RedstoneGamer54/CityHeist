@@ -1,0 +1,15 @@
+on load:
+    broadcast "&7[&6chat.sk&7] &aSkript reloaded!"
+
+#CHAT
+on chat:
+  cancel event
+  replace all "ProHeist" with "CityHeist" in message
+  replace all "P R O H E I S T" with "C I T Y H E I S T" in message
+  replace all "CityHeist Is Bad" with "ProHeist Is Bad" in message
+  replace all "CityHeist Is Trash" with "ProHeist Is Trash" in message
+  replace all "CityHeist Is The Worst" with "ProHeist Is The Worst" in message
+  if player has permission "cityheist.chat.white":
+    broadcast "%player's nick name%%colored player's suffix% &8| &f%message%"
+  else:
+    broadcast "%player's nick name%%colored player's suffix% &8| &7%message%"

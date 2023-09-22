@@ -1,0 +1,315 @@
+on load:
+	broadcast "&7[&6apartments.sk&7] &aSkript reloaded!"
+
+#FUNCTIONS
+
+#tier 1
+function apptTier1(p: player):
+	if {ownTier1.%{_p}%} is not set:
+		if {lastX1.server} is not set:
+			set {lastX1.server} to -194
+		if {lastX2.server} is not set:
+			set {lastX2.server} to -176
+		if {lastX3.server} is not set:
+			set {lastX3.server} to -185
+		set {_x1} to {lastX1.server}
+		set {_x2} to {lastX2.server}
+		set {_x3} to {lastX3.server}
+		set {_point1} to "%{_x1}% 4 -149"
+		set {_point2} to "%{_x2}% 16 -131"
+		execute console command "clone -97 4 -111 -79 16 -129 %{_point1}%"
+		execute console command "fill %{_point1}% %{_point2}% glowstone replace stone"
+		set {home.%{_p}%} to "%{_x3}% 9 -140"
+		add 23 to {lastX1.server}
+		add 23 to {lastX2.server}
+		add 23 to {lastX3.server}
+		send "&aWelcome to your &a&lTier 1 &aapartment!" to {_p}
+		remove {_p} from {hashome::*}
+		add {_p} to {hashome::*}
+		set {ownTier1.%{_p}%} to true
+		set {apartmentown.%{_p}%} to true
+		wait 2 ticks
+		execute console command "minecraft:tp %{_p}% %{home.%{_p}%}%"
+	else:
+		send "&cYou already own a &a&lTier 1 &capartment!" to {_p}
+
+
+#tier 2
+function apptTier2(p: player):
+	if {ownTier2.%{_p}%} is not set:
+		if {lastX1.server} is not set:
+			set {lastX1.server} to -194
+		if {lastX2.server} is not set:
+			set {lastX2.server} to -176
+		if {lastX3.server} is not set:
+			set {lastX3.server} to -185
+		set {_x1} to {lastX1.server}
+		set {_x2} to {lastX2.server}
+		set {_x3} to {lastX3.server}
+		set {_point1} to "%{_x1}% 4 -149"
+		set {_point2} to "%{_x2}% 16 -131"
+		execute console command "clone -130 4 -111 -112 16 -129 %{_point1}%"
+		execute console command "fill %{_point1}% %{_point2}% glowstone replace stone"
+		set {home.%{_p}%} to "%{_x3}% 9 -140"
+		add 23 to {lastX1.server}
+		add 23 to {lastX2.server}
+		add 23 to {lastX3.server}
+		send "&aWelcome to your &a&lTier 2 &aapartment!" to {_p}
+		remove {_p} from {hashome::*}
+		add {_p} to {hashome::*}
+		set {ownTier2.%{_p}%} to true
+		set {apartmentown.%{_p}%} to true
+		wait 2 ticks
+		execute console command "minecraft:tp %{_p}% %{home.%{_p}%}%"
+	else:
+		send "&cYou already own a &a&lTier 2 &capartment!" to {_p}
+
+#tier 3
+function apptTier3(p: player):
+	if {ownTier3.%{_p}%} is not set:
+		if {lastX1.server} is not set:
+			set {lastX1.server} to -194
+		if {lastX2.server} is not set:
+			set {lastX2.server} to -176
+		if {lastX3.server} is not set:
+			set {lastX3.server} to -185
+		set {_x1} to {lastX1.server}
+		set {_x2} to {lastX2.server}
+		set {_x3} to {lastX3.server}
+		set {_point1} to "%{_x1}% 4 -149"
+		set {_point2} to "%{_x2}% 16 -131"
+		execute console command "clone -162 4 -111 -144 16 -129 %{_point1}%"
+		execute console command "fill %{_point1}% %{_point2}% glowstone replace stone"
+		set {home.%{_p}%} to "%{_x3}% 9 -140"
+		add 23 to {lastX1.server}
+		add 23 to {lastX2.server}
+		add 23 to {lastX3.server}
+		send "&aWelcome to your &a&lTier 3 &aapartment!" to {_p}
+		remove {_p} from {hashome::*}
+		add {_p} to {hashome::*}
+		set {ownTier3.%{_p}%} to true
+		set {apartmentown.%{_p}%} to true
+		wait 2 ticks
+		execute console command "minecraft:tp %{_p}% %{home.%{_p}%}%"
+	else:
+		send "&cYou already own a &a&lTier 3 &capartment!" to {_p}
+
+#tier 4
+function apptTier4(p: player):
+	if {ownTier4.%{_p}%} is not set:
+		if {lastX1.server} is not set:
+			set {lastX1.server} to -194
+		if {lastX2.server} is not set:
+			set {lastX2.server} to -176
+		if {lastX3.server} is not set:
+			set {lastX3.server} to -185
+		set {_x1} to {lastX1.server}
+		set {_x2} to {lastX2.server}
+		set {_x3} to {lastX3.server}
+		set {_point1} to "%{_x1}% 4 -149"
+		set {_point2} to "%{_x2}% 16 -131"
+		execute console command "clone -194 4 -111 -176 16 -129 %{_point1}%"
+		execute console command "fill %{_point1}% %{_point2}% glowstone replace stone"
+		set {home.%{_p}%} to "%{_x3}% 9 -140"
+		add 23 to {lastX1.server}
+		add 23 to {lastX2.server}
+		add 23 to {lastX3.server}
+		send "&aWelcome to your &a&lTier 4 &aapartment!" to {_p}
+		remove {_p} from {hashome::*}
+		add {_p} to {hashome::*}
+		set {ownTier4.%{_p}%} to true
+		set {apartmentown.%{_p}%} to true
+		wait 2 ticks
+		execute console command "minecraft:tp %{_p}% %{home.%{_p}%}%"
+	else:
+		send "&cYou already own a &a&lTier 4 &capartment!" to {_p}
+	
+
+
+
+#VOUCHERS
+on rightclick holding paper:
+	if name of player's tool contains "Apartment":
+		if name of player's tool contains "Tier 1":
+			if {ownTier1.%player%} is not set:
+				apptTier1(player)
+				remove 1 of event-item from player's inventory
+			else:
+				message "&cYou cannot use this"
+		if name of player's tool contains "Tier 2":
+			if {ownTier2.%player%} is not set:
+				apptTier2(player)
+				remove 1 of event-item from player's inventory
+			else:
+				message "&cYou cannot use this"
+		if name of player's tool contains "Tier 3":
+			if {ownTier3.%player%} is not set:
+				apptTier3(player)
+				remove 1 of event-item from player's inventory
+			else:
+				message "&cYou cannot use this"
+		if name of player's tool contains "Tier 4":
+			if {ownTier4.%player%} is not set:
+				apptTier4(player)
+				remove 1 of event-item from player's inventory
+			else:
+				message "&cYou cannot use this"
+
+command /apartmentvoucher <player> <integer>:
+  permission: *
+  trigger:
+    give arg-1 paper named "&a&lTier %arg-2% &aApartment Voucher"
+
+
+
+#TESTS
+command /aparttest1:
+	permission: *
+	trigger:
+		apptTier1(player)
+command /aparttest2:
+	permission: *
+	trigger:
+		apptTier2(player)
+command /aparttest3:
+	permission: *
+	trigger:
+		apptTier3(player)
+command /aparttest4:
+	permission: *
+	trigger:
+		apptTier4(player)
+
+
+
+#HOME APARTMENT
+command /apartment:
+	trigger:
+		if {home.%player%} is not set:
+			message "&cYou do not own an apartment!"
+		else:
+			execute console command "minecraft:tp %player% %{home.%player%}%"
+			message "&aTeleported you to your apartment!"
+
+#APARTMENT TELEPORT
+command /aparttp <offlineplayer>:
+    permission: *
+    trigger:
+        if {home.%arg-1%} is not set:
+            message "&d&o%arg-1% &cplayer does not own an apartment!"
+        else:
+            execute console command "minecraft:tp %player% %{home.%arg-1%}%"
+            message "&aTeleported you to &a&l%arg-1%&a&l's &aapartment!"
+
+
+
+
+#RESET
+command /apartreset:
+	permission: *
+	trigger:
+		set {_point} to "%{lastX2.server}% 16 -131"
+		execute console command "fill -194 4 -149 %{_point}% air"
+		delete {lastX1.server}
+		delete {lastX2.server}
+		delete {lastX3.server}
+		loop {hashome::*}:
+			delete {home.%loop-value%}
+			delete {ownTier1.%loop-value%}
+			delete {ownTier2.%loop-value%}
+			delete {ownTier3.%loop-value%}
+			delete {ownTier4.%loop-value%}
+		delete {hashome::*}
+		message "&aSuccessfully reset ALL appartment locations"
+
+#CONCIERGE
+
+#MAIN COMMAND
+on rightclick on entity:
+    if clicked entity is citizen 0:
+        wait 3 ticks
+        open chest with 3 rows named "Apartment Main Menu" to player
+        set {_slot} to -1
+        loop 27 times:
+            add 1 to {_slot}
+            format slot {_slot} of player with gray glass pane named "&7" to be unstealable
+        wait 1 tick
+        if {apartmentown.%player%} is true:
+            format slot 11 of player with dark oak door named "&6Visit Apartments" with lore "&7Visit an apartment" and "&cDISABLED" to close then run [make player execute command "visitapartments"]
+
+            format slot 13 of player with birch door named "&aEnter Your Apartment" to close then run [make player execute command "apartment"]
+
+            format slot 15 of player with comparator named "&bApartment Settings" with lore "&7Edit your apartment settings" to close then run [make player execute command "apartmentsettings"]
+        else:
+            format slot 11 of player with dark oak door named "&6Visit Apartments" with lore "&7Visit an apartment" and "&cDISABLED" to close then run [make player execute command "visitapartments"]
+
+            format slot 13 of player with birch door named "&aPurchase Apartment" with lore "&7Price: &a$3000" to close then run [make player execute command "apartmentpurchase"]
+
+            format slot 15 of player with book named "&bApartment Preview" to close then run [execute console command "/tp %player% -87.5 9 -118.5"]
+
+#command /visitapartments:
+    #trigger:
+        #if size of {hashome::*} is 0:
+            #send "&cThere are no apartments!" to player
+        #else:
+            #if size of {hashome::*} is less than 44:
+                #wait 4 ticks
+                #open chest with 6 rows named "Apartment List" to player
+                #set {_slot} to -1
+                #loop 45 times:
+                    #add 1 to {_slot}
+                    #format slot {_slot} of player with gray glass pane named "&7" to be unstealable
+                #set {_slot} to 44
+                #loop 9 times:
+                    #add 1 to {_slot}
+                    #format slot {_slot} of player with light blue glass pane named "&7" to be unstealable
+                #format slot 49 of player with book named "&fPage 1/1" to be unstealable
+                #set {_slot} to -1
+                #loop {hashome::*}:
+                    #add 1 to {_slot}
+                    #format slot {_slot} of player with oak sign named "&b%loop-value%&b's Apartment" with lore "&7Teleport to &7%loop-value%&7's apartment" to close then run [execute console command "/minecraft:tp %player% %{home.%loop-value%}%"]
+
+command /apartmentpurchase:
+  trigger:
+    if {ownTier1.%player%} is not set:
+      if player has {currency.3k}:
+        wait 3 ticks
+        open virtual chest with size 3 named "&aConfirm Purchase" to player
+        set {_Slot} to 0
+        loop 54 times:
+          format gui slot {_Slot} of player with gray stained glass pane named " " to do nothing
+          add 1 to {_Slot}
+        format gui slot 11 of player with red stained glass named "&cCancel Purchase" to close:
+          message "&cApartment purchase cancelled"
+        format gui slot 15 of player with green stained glass named "&aPurchase Appartment" with lore "&7Spend &a$3,000&7 on a cozy appartment" to close:
+          apptTier1(player)
+          remove {currency.3k} from player
+      else:
+        message "&cYou do not have enough money to purchase an apartment"
+command /apartmentsettings:
+  trigger:
+    if {ownTier1.%player%} is not set:
+      message "&cYou do not own an apartment!"
+    else:
+      wait 3 ticks
+      open chest with 3 rows named "Apartment Settings" to player
+      set {_slot} to -1
+      loop 27 times:
+        add 1 to {_slot}
+        format slot {_slot} of player with gray glass pane named "&7" to be unstealable
+      toggleVisiting(player)
+
+#FUNCTIONS
+function toggleVisiting(p: player):
+	if {visiting.%{_p}%} is not set:
+		format slot 13 of player with redstone repeater named "&dApartment Visting" with lore "&aON" and "&7OFF" to close then run function visitingOff({_p})
+	else:
+		format slot 13 of player with redstone repeater named "&dApartment Visting" with lore "&7ON" and "&cOFF" to close then run runction visitingOff({_p})
+
+function visitingOff(p: player):
+	set {visiting.%{_p}%} to false
+	send "&aApartment visiting is now &a&lOFF" to {_p}
+
+function visitingOn(p: player):
+	delete {visiting.%{_p}%}
+	send "&aApartment visiting is now &a&lON" to {_p}

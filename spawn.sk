@@ -1,0 +1,30 @@
+on load:
+	broadcast "&7[&6spawn.sk&7] &aSkript reloaded!"
+
+command /setspawn:
+  permission: spawn.admin
+  trigger:
+    delete {spawn}
+    set {spawn} to player's location
+    message "&8[&9City&bHeist&8] &7Set the server spawn to %{spawn}%"
+
+command /spawn [<player>]:
+  trigger:
+    if arg-1 is set:
+      if player has permission "spawn.others":
+        message "&8[&9City&bHeist&8] &7Sent %arg-1% &7to spawn"
+        make arg-1 execute "/spawn"
+    else if arg-1 is not set:
+      if {supermarketIP} is player:
+        message "&cYou cannot do this during a heist"
+      else if {restaurantIP} is player:
+        message "&cYou cannot do this during a heist"
+      else if {apartmentIP} is player:
+        message "&cYou cannot do this during a heist"
+      else if {bankIP} is player:
+        message "&cYou cannot do this during a heist"
+      else if {templeIP} is player:
+        message "&cYou cannot do this during a heist"
+      else:
+        teleport player to {spawn}
+        message "&8[&9City&bHeist&8] &7Teleported to spawn"

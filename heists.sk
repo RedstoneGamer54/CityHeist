@@ -1,0 +1,658 @@
+on load:
+	broadcast "&7[&6heists.sk&7] &aSkript reloaded!"
+
+#Kill Function
+function killguard(a: text):
+  if {_a} is "bank":
+    loop all entity in radius 25 around {bankkill}:
+      kill loop-entity
+  if {_a} is "supermarket":
+    loop all entity in radius 25 around {supermarketkill}:
+      if name of loop-entity is "&aStore Clerk":
+        kill loop-entity
+  if {_a} is "restaurant":
+    loop all entity in radius 25 around {restaurantkill}:
+      if name of loop-entity is "&bWaiter" or "&9&lChef":
+        kill loop-entity
+  if {_a} is "apartment":
+    loop all entity in radius 25 around {apartmentkill}:
+      if name of loop-entity is "&cAngry Civilian":
+        kill loop-entity
+  if {_a} is "temple":
+    loop all entity in radius 25 around {templekill}:
+      if name of loop-entity is "&2Lizard" or "&2Lizard Warrior" or "&6&lGolem":
+        kill loop-entity
+
+#Super Market
+on rightclick on rail:
+  if {heist.%event-block%} is "supermarketstart":
+    if name of player's held item is "&6&lMakeshift Screwdriver":
+      if {heistcooldown::%player%} is 0:
+        if {supermarketIP} is not set:
+          remove 1 of player's held item from player's inventory
+          execute console command "/tp %player% -412.5 16 -48.5"
+          send "&cYou Have 5 Minutes To Loot The Cash Register Until The Police Arrive!"
+          set {supermarketIP} to player
+          loop {supermarketguards::*}:
+            spawn zombie at loop-value
+            set the name of the last spawned zombie to "&aStore Clerk"
+            set the helmet of the last spawned zombie to {clerkhead}
+            set chestplate of the last spawned zombie to leather chestplate colored green
+            set leggings of the last spawned zombie to leather pants colored blue
+            set the boots of the last spawned zombie to leather boots colored black
+          wait 5 minutes
+          if {supermarketIP} is player:
+            delete {supermarketIP}
+            kill the player
+            send "&cThe Cops Got To You Before You Could Rob The Super Market!"
+            killguard("supermarket")
+            set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        else:
+          send "&cYou Can't Rob The Super Market At This Time!"
+      else:
+        send "&cYou are still on cooldown"
+    else:
+      send "&cYou Need A &6&lMakeshift Screwdriver &cIn Order To Open This Vent"
+
+on rightclick on rail:
+  if {normalvent.%event-block%} is "normalvent":
+    message "&cThis Vent Won't Budge"
+
+on rightclick on smooth quartz stairs:
+  if {supermarketIP} is player:
+    if {heist.%event-block%} is "supermarketend":
+      loop all entity in radius 25 around event-block:
+        if name of loop-entity is "&aStore Clerk":
+          send "&cThe Store Clerk Prevented You From Stealing The Money"
+          stop
+      set {amount} to a random integer between 0 and 1
+      give {amount} of diamonds named "&b&l$100" to player
+      set {amount} to a random integer between 1 and 2
+      give {amount} of diamonds named "&b&l$50" to player
+      set {amount} to a random integer between 1 and 3
+      give {amount} of diamonds named "&b&l$10" to player
+      set {amount} to a random integer between 1 and 3
+      give {amount} of diamonds named "&b&l$5" to player
+      delete {supermarketIP}
+      set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+      add 1 to {toprobbers::%player's uuid%}
+      make player execute command "/spawn"
+      killguard("supermarket")
+
+#Restaurant
+on click on cracked stone bricks:
+  if {heist.%event-block%} is "restaurantstart":
+    if name of player's held item is "&e&lSledge Hammer":
+      if {heistcooldown::%player%} is 0:
+        if {restaurantIP} is not set:
+          remove 1 of player's held item from player's inventory
+          execute console command "/tp %player% -36.5 4 -18.5"
+          send "&cYou Have 5 Minutes To Steal The Gold Crusted Beans!"
+          set {restaurantIP} to player
+          loop {restaurantguards::*}:
+            if {chef} is not set:
+              spawn zombie at loop-value
+              set the name of the last spawned zombie to "&9&lChef"
+              set the helmet of the last spawned zombie to {chefhead}
+              set chestplate of the last spawned zombie to leather chestplate colored white
+              set leggings of the last spawned zombie to leather pants colored white
+              set boots of the last spawned zombie to leather boots colored white
+              set the tool of the last spawned zombie to iron sword of sharpness 1
+              set the last spawned zombie's maximum health to 10
+              heal the last spawned zombie
+              set {chef} to true
+            else:
+              spawn skeleton at loop-value
+              set the name of the last spawned skeleton to "&bWaiter"
+              set the helmet of the last spawned skeleton to {waiterhead}
+              set chestplate of the last spawned skeleton to leather chestplate colored white
+              set leggings of the last spawned skeleton to leather pants colored black
+              set boots of the last spawned skeleton to leather boots colored black
+          delete {chef}
+          wait 5 minutes
+          if {restaurantIP} is player:
+            delete {restaurantIP}
+            kill the player
+            send "&cThe Cops Arrived Before You Were Able To Rob The Restaurant!"
+            killguard("restaurant")
+            set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        else:
+          send "&cYou Can't Rob The Restaurant At This Time!"
+      else:
+        send "&cYou are still on cooldown"
+    else:
+      send "&cYou Need A &e&lSledge Hammer &cIn Order To Break This Wall"
+
+on rightclick on dark oak button:
+  if {restaurantIP} is player:
+    if {heist.%event-block%} is "restaurantend":
+      loop all entity in radius 35 around {restaurantkill}:
+        if name of loop-entity is "&9&lChef" or "&bWaiter":
+          send "&cThe Restaurant Staff Stopped You From Stealing The Gold Crusted Beans!"
+          stop
+      set {amount} to a random integer between 2 and 3
+      give {amount} of diamonds named "&b&l$100" to player
+      set {amount} to a random integer between 0 and 1
+      give {amount} of diamonds named "&b&l$50" to player
+      set {amount} to a random integer between 1 and 4
+      give {amount} of diamonds named "&b&l$10" to player
+      delete {restaurantIP}
+      set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+      add 1 to {toprobbers::%player's uuid%}
+      make player execute command "/spawn"
+
+#Apartment
+on rightclick on iron trapdoor:
+  if {heist.%event-block%} is "apartmentstart":
+    if name of player's held item is "&a&lExternal Apartment Key":
+      if {heistcooldown::%player%} is 0:
+        if {apartmentIP} is not set:
+          set {apartmentIP} to player
+          send "&cYou Have A Minute And A Half To Rob The Apartment Complex!"
+          remove 1 of player's held item from player's inventory
+          execute console command "/tp %player% -5.5 22.1875 -65.5"
+          loop {apartment.canloot::*}:
+            set {apartment.canloot::%loop-index%} to true
+          set {apartment.lootedtotal} to 0
+          set block at {pos} to oak planks
+          loop {apartmentguards::*}:
+            spawn skeleton at loop-value
+            set the name of the last spawned skeleton to "&cAngry Civilian"
+            set the helmet of the last spawned skeleton to {apartmenthead}
+            set chestplate of the last spawned skeleton to leather chestplate colored white
+            set leggings of the last spawned skeleton to leather pants colored cyan
+            set boots of the last spawned skeleton to leather boots colored cyan
+            set the last spawned skeleton's maximum health to 15
+            heal the last spawned skeleton
+          wait 1 minute
+          if {apartmentIP} is player:
+            message "&c30 Seconds Before Security Get Up Here"
+            wait 30 seconds
+            if {apartmentIP} is player:
+              delete {apartmentIP}
+              kill the player
+              send "&cYou were stopped and were fined &c&l$%{apartment.lootedtotal}%&c&l00"
+              remove {apartment.lootedtotal} of diamonds named "&b&l$100" from player's inventory
+              killguard("apartment")
+              set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        else:
+          send "&cYou Can Not Rob The Apartment Complex At This Time!"
+      else:
+        send "&cYou Are Still On Cooldown"
+    else:
+      send "&cYou Need An &a&lExternal Apartment Key &cIn Order To Enter The Apartment Complex!"
+
+on rightclick on chest:
+  if {apartmentIP} is player:
+    if {heist.%event-block%} is "apartmentloot":
+      if {apartment.canloot::%event-block%} is true:
+        cancel event
+        play sound "block.chest.open" with volume 1.0 at player
+        set {amount} to 1
+        give {amount} of diamonds named "&b&l$100" to player
+        set {amount} to a random integer between 2 and 6
+        give {amount} of diamonds named "&b&l$10" to player
+        set {amount} to a random integer between 0 and 3
+        give {amount} of diamonds named "&b&l$5" to player
+        set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        set {apartment.canloot::%event-block%} to false
+        add 1 to {apartment.lootedtotal}
+      else:
+        cancel event
+        play sound "block.chest.locked" with volume 1.0 at player
+        message "&cYou Have Already Looted This Chest"
+
+on rightclick on stone button:
+  if {apartmentsecret.%event-block%} is "apartmentsecret":
+    if {apartmentip} is player:
+      if block at {pos} is oak planks:
+        set block at {pos} to air
+        message "&7A floorboard has opened"
+
+#command /pos:
+  #trigger:
+    #delete {pos}
+    #set {pos} to player's target block
+
+on rightclick on stone button:
+  if {apartmentip} is player:
+    if {heist.%event-block%} is "apartmentend":
+      delete {apartmentip}
+      set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+      add 1 to {toprobbers::%player's uuid%}
+      teleport player to {apartmentend}
+      killguard("apartment")
+      message "&aYou managed to get out in time"
+
+#Bank
+on rightclick on stone button:
+  if {heist.%event-block%} is "bankstart":
+    if name of player's held item is "&3&lVault Codes":
+      if {heistcooldown::%player%} is 0:
+        if {bankip} is not set:
+          send "&cYou Have 3 Minutes To Loot The Bank!"
+          remove 1 of player's held item from player's inventory
+          set {bankip} to player
+          execute console command "minecraft:tp %player% -250.5 5 -176.5"
+          loop {bankguards::*}:
+            spawn skeleton at loop-value
+            set the name of the last spawned skeleton to "&cSecurity Guard"
+            set the helmet of the last spawned skeleton to ("policeofficer" parsed as an offline player)'s skull
+            set chestplate of the last spawned skeleton to leather chestplate colored blue
+            set leggings of the last spawned skeleton to leather pants colored black
+            set boots of the last spawned skeleton to leather boots colored black
+            set the tool of the last spawned skeleton to air
+            set the tool of the last spawned skeleton to bow of power 1
+            set the last spawned skeleton's maximum health to 15
+            heal the last spawned skeleton
+          wait 3 minutes
+          if {bankip} is player:
+            delete {bankip}
+            kill the player
+            send "&cThe Cops Got To You Before You Could Rob The Bank!"
+            killguard("bank")
+            set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        else:
+          send "&cYou Can Not Rob The Bank At This Time"
+      else:
+        send "&cYou are still on cooldown"
+    else:
+      send "&cYou Need The &3&lVault Codes &cIn Order To Enter The Vault!"
+
+on rightclick on wooden button:
+  if {bankip} is player:
+    if {heist.%event-block%} is "bankend":
+      delete {bankip}
+      give 1 diamond named "&b&l$1,000" to player
+      set {amount} to a random integer between 0 and 3
+      give {amount} of diamonds named "&b&l$100" to player
+      set {amount} to a random integer between 0 and 5
+      give {amount} of diamonds named "&b&l$10" to player
+      set {amount} to a random integer between 0 and 5
+      give {amount} of diamonds named "&b&l$5" to player
+      set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+      add 1 to {toprobbers::%player's uuid%}
+      make player execute command "/spawn"
+      killguard("bank")
+
+#Temple
+on rightclick on iron trapdoor:
+  if {heist.%event-block%} is "templestart":
+    if name of player's held item is "&6&lTemple Key":
+      if {heistcooldown::%player%} is 0:
+        if {templeIP} is not set:
+          set {templeIP} to player
+          send "&cYou Have Three And A Half Minutes To Discover The Temple's Treasures Before It Collapses!"
+          remove 1 of player's held item from player's inventory
+          execute console command "/tp %player% -19.5 13 171.5"
+          set block at {templelever1} to lever
+          set block at {templelever2} to lever
+          set block at {templelever3} to lever
+          set block at {templelever4} to lever
+          set block at {templelever5} to lever
+          loop {temple.canloot::*}:
+            set {temple.canloot::%loop-index%} to true
+          set {temple.lootedtotal} to 0
+          loop {templeguards::*}:
+            if {golem} is not set:
+              spawn iron golem at loop-value
+              set the name of the last spawned iron golem to "&6&lGolem"
+              set the last spawned iron golem's maximum health to 75
+              heal the last spawned iron golem
+              set the last spawned iron golem's target to {templeIP}
+              set {golem} to true
+            else if {lizardwarrior} is not set:
+              spawn zombie at loop-value
+              set the name of the last spawned zombie to "&2Lizard Warrior"
+              set the last spawned zombie's maximum health to 20
+              set the helmet of the last spawned zombie to {lizardhead}
+              set chestplate of the last spawned zombie to iron chestplate
+              set leggings of the last spawned zombie to leather pants colored green
+              set boots of the last spawned zombie to leather boots colored green
+              set the tool of the last spawned zombie to iron sword of sharpness 1
+              heal the last spawned zombie
+              set the last spawned zombie's target to {templeIP}
+              set {lizardwarrior} to true
+            else:
+              spawn zombie at loop-value
+              set the name of the last spawned zombie to "&2Lizard"
+              set the last spawned zombie's maximum health to 15
+              set the helmet of the last spawned zombie to {lizardhead}
+              set chestplate of the last spawned zombie to leather chestplate colored green
+              set leggings of the last spawned zombie to leather pants colored green
+              set boots of the last spawned zombie to leather boots colored green
+              set the tool of the last spawned zombie to iron sword
+              apply speed to last spawned zombie for 5 minutes
+              set the last spawned zombie's target to {templeIP}
+              heal the last spawned zombie
+          delete {lizardwarrior}
+          delete {golem}
+          wait 3 minutes
+          if {templeIP} is player:
+            message "&c30 Seconds Before The Temple Collapses"
+            wait 30 seconds
+            if {templeIP} is player:
+              delete {templeIP}
+              kill the player
+              send "&cYou got covered in rock dust while trying to escape and lost  &c&l$%{temple.lootedtotal}%&c&l00"
+              remove {lootedtotal} of diamonds named "&b&l$100" from player's inventory
+              killguard("temple")
+              set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        else:
+          send "&cYou Can Not Explore The Temple At This Time!"
+      else:
+        send "&cYou Are Still On Cooldown"
+    else:
+      send "&cYou Need A &6&lTemple Key &cIn Order To Enter The Temple!"
+
+on rightclick on chest:
+  if {templeIP} is player:
+    if {heist.%event-block%} is "templeloot":
+      if {temple.canloot::%event-block%} is true:
+        cancel event
+        play sound "block.chest.open" with volume 1.0 at player
+        set {amount} to a random integer between 3 and 5
+        give {amount} of diamonds named "&b&l$100" to player
+        set {amount} to a random integer between 1 and 3
+        give {amount} of diamonds named "&b&l$50" to player
+        set {amount} to a random integer between 0 and 3
+        give {amount} of diamonds named "&b&l$10" to player
+        set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+        set {temple.canloot::%event-block%} to false
+        add 3 to {temple.lootedtotal}
+      else:
+        cancel event
+        play sound "block.chest.locked" with volume 1.0 at player
+        message "&cYou Have Already Looted This Chest"
+
+command /templetp:
+  executable by: console
+  trigger:
+    loop all players in radius 25 around {templeconfirm}:
+      teleport loop-player to location at 0, 0, 0 in world "world"
+      message "&6"
+    if block at {templelever1} is lever:
+      set block at {templelever1} to lever
+    if block at {templelever2} is lever:
+      set block at {templelever2} to lever
+    if block at {templelever3} is lever:
+      set block at {templelever3} to lever
+    if block at {templelever4} is lever:
+      set block at {templelever4} to lever
+    if block at {templelever5} is lever:
+      set block at {templelever5} to lever
+
+on rightclick on stone button:
+  if {templedoor.%event-block%} is "templedoor":
+    if {templeip} is player:
+      if block at {templeconfirm} is redstone block:
+        set block at {templeconfirm} to air
+        wait 2 seconds
+        if block at {templeconfirm} is air:
+          set block at {templeconfirm} to redstone block
+
+command /leverset <integer>:
+  trigger:
+    delete {templelever%arg-1%}
+    set {templelever%arg-1%} to player's target block
+    
+command /templeconfirm:
+  trigger:
+    delete {templeconfirm}
+    set {templeconfirm} to player's target block
+
+on rightclick on birch button:
+  if {templeip} is player:
+    if {heist.%event-block%} is "templeend":
+      delete {templeip}
+      set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+      add 1 to {toprobbers::%player's uuid%}
+      message "&aYou managed to get out in time"
+      make player execute command "/spawn"
+      killguard("temple")
+
+command /guard [<text>] [<text>] [<text>]:
+  permission: heists.admin
+  trigger:
+    if arg-1 is set:
+      if arg-2 is not set:
+        add player's location to {%arg-1%guards::*}
+        send "&aAdded This Location To %arg-1% &aGuards Spawn"
+    if arg-1 is "list":
+      send "&2The Guard Locations For %arg-2%"
+      loop {%arg-2%guards::*}:
+        send "&a%loop-index% &a- %loop-value%"
+    if arg-1 is "delete":
+      loop {%arg-2%guards::*}:
+        if loop-index is arg-3:
+          send "&aDeleted %loop-value% &aFrom %arg-3%"
+          remove loop-value from {%arg-2%guards::*}
+    if arg-1 is not set:
+      send "&2Guard Help"
+      send "&a/guard (heist) - adds location for guard to spawn at heist"
+      send "&a/guard list (heist) - lists all guard locations in specified heist"
+      send "&a/guard delete (heist) (guard number) - removes specified guard in /guard list from that heist"
+
+command /killguard [<text>]:
+  permission: heists.admin
+  trigger:
+    set {%arg-1%kill} to player's location
+    send "&aSet %arg-1% &aKill Area To %{%arg-1%kill}%"
+
+command /heistclear [<text>]:
+  permission: heists.admin
+  trigger:
+    set {heistclear} to arg-1
+    killguard("%{heistclear}%")
+    delete {%arg-1%ip}
+    message "&aYou cleared the %arg-1% &aheist"
+
+on death of player:
+  if {bankip} is victim:
+    delete {bankip}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    send "&cThe Guards Killed You!" to victim
+    killguard("bank")
+  if {supermarketIP} is victim:
+    delete {supermarketIP}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    send "&cThe Store Clerks Killed You!" to victim
+    killguard("supermarket")
+  if {restaurantIP} is victim:
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    delete {restaurantIP}
+    send "&cThe Restaurant Staff Killed You!" to victim
+    killguard("restaurant")
+  if {apartmentIP} is victim:
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    delete {apartmentIP}
+    send "&cYou were stopped and were fined &c&l$%{apartment.lootedtotal}%&c&l00" to victim
+    remove {apartment.lootedtotal} of diamonds named "&b&l$100" from victim's inventory
+    killguard("apartment")
+  if {templeIP} is victim:
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    delete {templeIP}
+    send "&cYou were stopped and were fined &c&l$%{temple.lootedtotal}%&c&l00" to victim
+    remove {temple.lootedtotal} of diamonds named "&b&l$100" from victim's inventory
+    killguard("temple")
+
+on quit:
+  if {bankip} is player:
+    delete {bankip}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    killguard("bank")
+  if {supermarketIP} is player:
+    delete {supermarketIP}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    killguard("supermarket")
+  if {restaurantIP} is player:
+    delete {restaurantIP}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    killguard("restaurant")
+  if {apartmentip} is player:
+    delete {apartmentip}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    remove {apartment.lootedtotal} of diamonds named "&b&l$100" from player's inventory
+    killguard("apartment")
+  if {templeip} is player:
+    delete {templeip}
+    set {heistcooldown::%player%} to {maxheistcooldown::%player%}
+    remove {temple.lootedtotal} of diamonds named "&b&l$100" from player's inventory
+    killguard("temple")
+
+#Starters
+on place of iron trapdoor:
+  if name of player's held item contains "start":
+    set {heist.%event-block%} to name of player's held item
+
+on place of stone button:
+  if name of player's held item contains "start":
+    set {heist.%event-block%} to name of player's held item
+
+on place of cracked stone bricks:
+  if name of player's held item contains "start":
+    set {heist.%event-block%} to name of player's held item
+
+on place of rail:
+  if name of player's held item contains "start":
+    send "&aPlaced A Starter!"
+    set {heist.%event-block%} to name of player's held item
+
+on place of rail:
+  if name of player's held item contains "normalvent":
+    set {normalvent.%event-block%} to name of player's held item
+
+#Enders
+on place of oak button:
+  if name of player's held item contains "end":
+    set {heist.%event-block%} to name of player's held item
+
+on place of smooth quartz stairs:
+  if name of player's held item contains "end":
+    set {heist.%event-block%} to name of player's held item
+
+on place of dark oak button:
+  if name of player's held item contains "end":
+    set {heist.%event-block%} to name of player's held item
+
+on place of chest:
+  if name of player's held item contains "templeloot":
+    set {heist.%event-block%} to name of player's held item
+    set {temple.canloot::%event-block%} to true
+
+on place of stone button:
+  if name of player's held item contains "templedoor":
+    set {templedoor.%event-block%} to name of player's held item
+
+on place of birch button:
+  if name of player's held item contains "templeend":
+    set {heist.%event-block%} to name of player's held item
+
+on place of chest:
+  if name of player's held item contains "apartmentloot":
+    set {heist.%event-block%} to name of player's held item
+    set {apartment.canloot::%event-block%} to true
+
+on place of stone button:
+  if name of player's held item contains "apartmentsecret":
+    set {apartmentsecret.%event-block%} to name of player's held item
+
+on place of stone button:
+  if name of player's held item contains "apartmentend":
+    set {heist.%event-block%} to name of player's held item
+
+#Removes Starters or Enders
+on block break of iron trapdoor:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of stone button:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of oak button:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of dark oak button:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of cracked stone bricks:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of smooth quartz stairs:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of birch button:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+
+on block break of chest:
+  if {heist.%event-block%} is set:
+    delete {heist.%event-block%}
+    delete {apartment.canloot::%event-block%}
+    delete {temple.canloot::%event-block%}
+
+on block break of stone button:
+  if {templedoor.%event-block%} is set:
+    delete {templedoor.%event-block%}
+
+on block break of stone button:
+  if {apartmentsecret.%event-block%} is set:
+    delete {apartmentsecret.%event-block%}
+
+command /guardhead [<text>]:
+  permission: guard.set
+  trigger:
+    if arg-1 is not set:
+      send "&5Guard Head Help"
+      send "&d/guardhead (type) - Sets the helmet of a type of guard."
+      send "&dEx. /guardhead chef"
+    else:
+      set {%arg-1%head} to player's held item
+
+#Guard Drops
+on death of zombie:
+  if attacker is a player:
+    name of victim is "&aStore Clerk":
+      drop 1 of diamond named "&b&l$5" at victim
+
+on death of skeleton:
+  if attacker is a player:
+    name of victim is "&bWaiter":
+      drop 1 of diamond named "&b&l$10" at victim
+
+on death of zombie:
+  if attacker is a player:
+    name of victim is "&9&lChef":
+      drop 1 of diamond named "&b&l$10" at victim
+      drop 1 of diamond named "&b&l$5" at victim
+
+on death of skeleton:
+  if attacker is a player:
+    name of victim is "&cAngry Civilian":
+      drop 1 of diamond named "&b&l$10" at victim
+      drop 1 of diamond named "&b&l$5" at victim
+
+on death of skeleton:
+  if attacker is a player:
+    name of victim is "&cSecurity Guard":
+      drop 1 of diamond named "&b&l$50" at victim
+
+on death of zombie:
+  if attacker is a player:
+    name of victim is "&2Lizard":
+      drop 1 of diamond named "&b&l$50" at victim
+
+on death of zombie:
+  if attacker is a player:
+    name of victim is "&2Lizard Warrior":
+      drop 1 of diamond named "&b&l$100" at victim
+
+on death of iron golem:
+  if attacker is a player:
+    name of victim is "&6Golem":
+      drop 5 of diamond named "&b&l$100" at victim

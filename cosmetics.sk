@@ -1,0 +1,11 @@
+on load:
+    broadcast "&7[&6cosmetics.sk&7] &aSkript reloaded!"
+
+on right click with feather:
+ if name of player's tool is "&f&lI can Fly":
+  if {wings1::%player's uuid%} is set:
+   stopEffect id "%player's uuid%"
+   delete {wings1::%player's uuid%}
+  else:
+   drawWings style 7, particle1 "redstone", RGB 255, 0, 204, particle2 "redstone", RGB2 179, 0, 255, particle3 "redstone", RGB3 204, 102, 255, center player, id "%player's uuid%", angle 110, height 0, space 0.2, visibleRange 30, tps 0, second 3
+   set {wings1::%player's uuid%} to true

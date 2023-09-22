@@ -1,0 +1,26 @@
+on load:
+	broadcast "&7[&6randomcrap.sk&7] &aSkript reloaded!"
+
+#-------------------------
+#WATER COOLER
+#-------------------------
+
+on place of stone button:
+  if name of player's held item contains "watercooler":
+    set {watercooler.%event-block%} to name of player's held item
+
+on block break of stone button:
+  if {watercooler.%event-block%} is set:
+    delete {watercooler.%event-block%}
+
+on rightclick on stone button:
+  if {watercooler.%event-block%} is "watercooler":
+    give player 1 bottle of water named "&9Water"
+
+on rightclick on composter:
+  cancel event
+
+on craft:
+  if player has permission "can.craft":
+  else:
+    cancel event
